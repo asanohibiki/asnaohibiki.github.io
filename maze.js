@@ -188,7 +188,7 @@ function main() {
             startButton.disabled = false;
             stopButton.disabled = true;
             resetButton.disabled = true;
-            window.alert(`おめでとう！${time.innerText}でゴールだよ！`)
+            window.alert(`おめでとう！${time.textContent}でゴールだよ！`)
             flg = false;
             time.textContent = '00:00:00.000';
             stopTime = 0;
