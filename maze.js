@@ -5,6 +5,7 @@ const startButton = document.getElementById("start-btn");
 const stopButton = document.getElementById("stop-btn");
 const resetButton = document.getElementById("reset-btn");
 const time = document.getElementById("time");
+const mazeFrame = document.getElementById("maze-frame");
 
 //使用する変数の初期化
 let startTime;
@@ -61,7 +62,7 @@ resetButton.addEventListener('click', function () {
 //canvasの設定
 const canvas = document.getElementById('canvas');
 canvas.width = 640;		//canvasの横幅（よこはば）
-canvas.height = 320;	//canvasの縦幅（たてはば）
+canvas.height = 640;	//canvasの縦幅（たてはば）
 
 //コンテキストを取得
 const ctx = canvas.getContext('2d');
@@ -69,16 +70,22 @@ const ctx = canvas.getContext('2d');
 //humanオブジェクトを作成
 const human = new Object();
 human.img = new Image();
-human.img.src = 'asnaohibiki.github.io/stand_businessman_top.png';
+human.img.src = 'stand_businessman_top.png';
 human.x = 0;
 human.y = 0;
 human.move = 0;
-//回転用の変数作成
-let trunHuman = human["img"].style.transform;
 
 //マップチップのImageオブジェクトを作る
 const mapchip = new Image();
-mapchip.src = 'asnaohibiki.github.io/map.png';
+mapchip.src = 'map.png';
+
+//スタート、ゴールオブジェクトを作成
+// const startPos = new Object();
+// const goalPos = new Object();
+const startPos = new Image();
+const goalPos= new Image();
+startPos.src = "start.png";
+goalPos.src = "goal.png";
 
 //キーボードのオブジェクトを作成
 const key = new Object();
@@ -89,8 +96,11 @@ key.left = false;
 key.push = '';
 
 //マップの作成（さくせい）
+function makeMap() {
+
+}
 let map = [
-  [0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [2, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
   [0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0],
   [0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
   [1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0],
@@ -109,7 +119,7 @@ let map = [
   [0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0],
   [0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1],
   [0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0]
+  [0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 3]
 ]
 
 //メインループ
@@ -121,8 +131,15 @@ function main() {
 
     for (let y = 0; y < map.length; y++) {
       for (let x = 0; x < map[y].length; x++) {
-        if (map[y][x] === 0) ctx.drawImage(mapchip, 0, 0, 32, 32, 32 * x, 32 * y, 32, 32);
-        if (map[y][x] === 1) ctx.drawImage(mapchip, 32, 0, 32, 32, 32 * x, 32 * y, 32, 32);
+        if (map[y][x] === 0) { 
+          ctx.drawImage(mapchip, 0, 0, 32, 32, 32 * x, 32 * y, 32, 32);
+        } else if (map[y][x] === 1) {
+         ctx.drawImage(mapchip, 32, 0, 32, 32, 32 * x, 32 * y, 32, 32);
+        } else if (map[y][x] === 2) {
+          ctx.drawImage(startPos, 0, 0, 32, 3, 32 * x, 32 * y, 32 , 32)
+        } else if (map[y][x] === 3) {
+          ctx.drawImage(goalPos, 0, 0, 32, 3, 32 * x, 32 * y, 32 , 32)
+        }
       }
     }
 
@@ -136,9 +153,8 @@ function main() {
       if (key.left === true) {
         let x = human.x / 32;
         let y = human.y / 32;
-        trunHuman = "rotate(90deg)"
         x--;
-        if (map[y][x] === 0) {
+        if (map[y][x] === 0 || map[y][x] === 2) {
           human.move = 32;
           key.push = 'left';
         }
@@ -146,10 +162,9 @@ function main() {
       if (key.up === true) {
         let x = human.x / 32;
         let y = human.y / 32;
-        trunHuman = "rotate(180deg)"
         if (y > 0) {
           y--;
-          if (map[y][x] === 0) {
+          if (map[y][x] === 0 || map[y][x] === 2) {
             human.move = 32;
             key.push = 'up';
           }
@@ -158,9 +173,8 @@ function main() {
       if (key.right === true) {
         let x = human.x / 32;
         let y = human.y / 32;
-        trunHuman = "rotate(270deg)"
         x++;
-        if (map[y][x] === 0) {
+        if (map[y][x] === 0 || map[y][x] === 2) {
           human.move = 32;
           key.push = 'right';
         }
@@ -168,10 +182,20 @@ function main() {
       if (key.down === true) {
         let x = human.x / 32;
         let y = human.y / 32;
-        trunHuman = "rotate(0deg)"
         if (y < 19) {
           y++;
-          if (map[y][x] === 0) {
+          if (map[y][x] === 3) {
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            resetButton.disabled = true;
+            window.alert(`おめでとう！${time.innerText}でゴールだよ！`)
+            flg = false;
+            time.textContent = '00:00:00.000';
+            stopTime = 0;
+            human.x = 0;
+            human.y = 0;
+            human.move = 0;
+          } else if (map[y][x] === 0 || map[y][x] === 2) {
             human.move = 32;
             key.push = 'down';
           }
@@ -200,7 +224,7 @@ function main() {
     if (key_code === 38) key.up = true;
     if (key_code === 39) key.right = true;
     if (key_code === 40) key.down = true;
-    event.preventDefault();		//方向キーでブラウザがスクロールしないようにする
+    // event.preventDefault();		//方向キーでブラウザがスクロールしないようにする
   }
 
   //キーボードが放されたときに呼び出される関数
