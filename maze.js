@@ -70,22 +70,22 @@ const ctx = canvas.getContext('2d');
 //humanオブジェクトを作成
 const human = new Object();
 human.img = new Image();
-human.img.src = 'stand_businessman_top.png';
+human.img.src = 'asnaohibiki.github.io/stand_businessman_top.png';
 human.x = 0;
 human.y = 0;
 human.move = 0;
 
 //マップチップのImageオブジェクトを作る
 const mapchip = new Image();
-mapchip.src = 'map.png';
+mapchip.src = 'asnaohibiki.github.io/map.png';
 
 //スタート、ゴールオブジェクトを作成
 // const startPos = new Object();
 // const goalPos = new Object();
 const startPos = new Image();
 const goalPos= new Image();
-startPos.src = "start.png";
-goalPos.src = "goal.png";
+startPos.src = "asnaohibiki.github.io/start.png";
+goalPos.src = "asnaohibiki.github.io/goal.png";
 
 //キーボードのオブジェクトを作成
 const key = new Object();
