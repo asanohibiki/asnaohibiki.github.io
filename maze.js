@@ -88,7 +88,7 @@ const startPos = new Image();
 const goalPos= new Image();
 //startPos.src = "asnaohibiki.github.io/start.png";
 startPos.src = "/start.png";
-goalPos.src = "asnaohibiki.github.io/goal.png";
+//goalPos.src = "asnaohibiki.github.io/goal.png";
 goalPos.src = "/goal.png";
 
 //キーボードのオブジェクトを作成
