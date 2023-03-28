@@ -84,8 +84,8 @@ mapchip.src = 'map.png';
 // const goalPos = new Object();
 const startPos = new Image();
 const goalPos= new Image();
-startPos.src = "asnaohibiki.github.io/start.png";
-goalPos.src = "asnaohibiki.github.io/goal.png";
+startPos.src = "start.png";
+goalPos.src = "goal.png";
 
 //キーボードのオブジェクトを作成
 const key = new Object();
