@@ -77,7 +77,7 @@ human.move = 0;
 
 //マップチップのImageオブジェクトを作る
 const mapchip = new Image();
-mapchip.src = 'asnaohibiki.github.io/map.png';
+mapchip.src = 'map.png';
 
 //スタート、ゴールオブジェクトを作成
 // const startPos = new Object();
